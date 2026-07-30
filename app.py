@@ -199,8 +199,8 @@ BASE_STYLE = """
   .shot img{width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform .5s}
   .shot:hover img{transform:scale(1.07)}
   .about-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:center}
-  .about-photo{border-radius:16px;overflow:hidden;border:2px solid var(--orange);box-shadow:0 20px 50px rgba(0,0,0,.35)}
-  .about-photo img{aspect-ratio:3/4;object-fit:cover}
+  .about-photo{border-radius:16px;overflow:hidden;border:2px solid var(--orange);box-shadow:0 20px 50px rgba(0,0,0,.35);max-width:320px}
+  .about-photo img{width:100%;aspect-ratio:3/4;object-fit:cover}
   .about-copy h3{font-size:15px}
   .badge-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
   .badge-strip span{background:var(--panel-lt);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:700;color:#fff}
@@ -233,7 +233,8 @@ BASE_STYLE = """
   .lb.open{display:flex}.lb img{max-width:92vw;max-height:90vh;border-radius:12px;box-shadow:0 30px 90px rgba(0,0,0,.7)}
   .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}.reveal.in{opacity:1;transform:none}
   @media(max-width:860px){
-    .hero{grid-template-columns:1fr}.hero-img{order:-1;min-height:280px}.hero-copy{padding:48px 24px}
+    .hero{grid-template-columns:1fr}.hero-img{order:-1;height:240px}.hero-img img{min-height:0}.hero-copy{padding:36px 24px}
+    .about-photo{max-width:220px;margin:0 auto 24px}
     .wa-float{display:none}
     .about-grid{grid-template-columns:1fr}
     .links{display:none}.menu-toggle{display:block}
