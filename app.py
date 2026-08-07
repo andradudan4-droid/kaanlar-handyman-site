@@ -43,6 +43,11 @@ SERVICES = [
     ("🌧️", "Weatherproofing", "Sheds, fences and exteriors sealed up and protected."),
 ]
 
+PRICING = [
+    ("🔧", "Handyman", "£50", "General repairs, fixes and small jobs, per hour."),
+    ("🪑", "Furniture Making & Fitting", "£60", "Flat-pack, wardrobes, beds and bespoke builds, per hour."),
+]
+
 GALLERY_COUNT = 27  # job-01.jpg .. job-27.jpg
 
 NORTH_LONDON_AREAS = [
@@ -194,6 +199,16 @@ BASE_STYLE = """
   .scard .icon{font-size:28px;margin-bottom:14px}
   .scard h3{margin:0 0 8px;font-size:17px;color:#fff}
   .scard p{margin:0;color:var(--mut);font-size:14px}
+  .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:620px;margin:0 auto}
+  .pcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px 26px;text-align:center;transition:transform .2s,border-color .2s}
+  .pcard:hover{transform:translateY(-4px);border-color:var(--orange)}
+  .pcard .icon{font-size:26px;margin-bottom:10px}
+  .pcard .rate{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:42px;color:var(--orange);line-height:1;margin:6px 0 2px}
+  .pcard .rate span{font-family:Inter,sans-serif;font-size:14px;font-weight:600;color:var(--mut)}
+  .pcard h3{margin:2px 0 8px;font-size:15px;color:#fff;text-transform:uppercase;letter-spacing:.04em}
+  .pcard p{margin:0;color:var(--mut);font-size:13.5px}
+  .pricing-note{text-align:center;color:var(--mut);font-size:13px;margin:22px 0 0}
+  .paper .pricing-note{color:#63666a}
   .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
   .shot{position:relative;margin:0;border-radius:12px;overflow:hidden;background:#000;cursor:zoom-in;border:1px solid var(--line)}
   .shot img{width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform .5s}
@@ -388,6 +403,21 @@ QUOTE_FORM = """
 """
 
 
+def pricing_section():
+    pcards = "".join(
+        f'<div class="pcard reveal"><div class="icon">{icon}</div><h3>{html.escape(name)}</h3>'
+        f'<div class="rate">{rate}<span>/hr</span></div><p>{html.escape(desc)}</p></div>'
+        for icon, name, rate, desc in PRICING
+    )
+    return """
+<section class="band paper"><div class="wrap">
+  <div class="head reveal"><div class="eyebrow">Pricing</div><h2>Straightforward hourly rates.</h2><p>Simple starting rates — final price depends on the job, confirmed before Mehmet starts.</p></div>
+  <div class="pricing">""" + pcards + """</div>
+  <p class="pricing-note">Bigger job? Send the details for a fixed quote.</p>
+</div></section>
+"""
+
+
 def home_body():
     scards = "".join(
         f'<div class="scard reveal"><div class="icon">{icon}</div><h3>{html.escape(name)}</h3><p>{html.escape(desc)}</p></div>'
@@ -419,7 +449,7 @@ def home_body():
   <div class="head reveal"><div class="eyebrow">Services</div><h2>Whatever needs fixing, fitting or building.</h2><p>Domestic jobs across North London, big or small.</p></div>
   <div class="services">""" + scards + """</div>
 </div></section>
-
+""" + pricing_section() + """
 <section class="band paper"><div class="wrap about-grid">
   <div class="about-photo reveal"><img src="/static/images/headshot.jpg" alt="Mehmet Bolukbas, Kaanlar Handyman"></div>
   <div class="about-copy reveal">
@@ -455,6 +485,7 @@ def services_body():
   <div class="head reveal"><div class="eyebrow">Services</div><h2>All trades, one handyman.</h2><p>Domestic furniture fitting and handyman work across North London.</p></div>
   <div class="services">""" + scards + """</div>
 </div></section>
+""" + pricing_section() + """
 """ + QUOTE_FORM
 
 
