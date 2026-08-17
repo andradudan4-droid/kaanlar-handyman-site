@@ -236,6 +236,8 @@ BASE_STYLE = """
   .qmsg a{color:#fff;font-weight:800;text-decoration:underline}
   .contact-box{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px}.contact-box p{margin:10px 0}
   .prose p{margin:0 0 16px;font-size:15.5px;color:#63666a}
+  .prose h3{color:#fff;font-size:17px;margin:28px 0 8px}
+  .paper .prose h3{color:var(--paper-ink)}
   .ctaband{background:linear-gradient(135deg,#1b1300,#141516);border:1px solid var(--line);border-radius:24px;padding:44px;text-align:center}
   .ctaband h2{font-size:clamp(24px,3.6vw,38px);margin:0 0 10px;color:#fff;font-weight:700}
   .ctaband p{color:var(--mut);margin:0 0 22px}
@@ -255,6 +257,23 @@ BASE_STYLE = """
     .links{display:none}.menu-toggle{display:block}
     .band{padding:52px 18px}
   }
+
+  /* cookie consent */
+  .cc-bar{position:fixed;left:16px;right:16px;bottom:16px;z-index:999999;max-width:640px;margin:0 auto;
+    background:rgba(17,19,21,.94);backdrop-filter:blur(8px);border:1px solid var(--line);
+    border-radius:14px;padding:16px 18px;display:none;align-items:center;gap:16px;flex-wrap:wrap;
+    box-shadow:0 20px 50px rgba(0,0,0,.4);transform:translateY(12px);opacity:0;transition:transform .35s ease,opacity .35s ease}
+  .cc-bar.cc-show{display:flex}
+  .cc-bar.cc-in{transform:translateY(0);opacity:1}
+  .cc-bar p{margin:0;color:#eee;font-size:13.5px;line-height:1.5;flex:1 1 260px}
+  .cc-bar a{color:var(--orange);text-decoration:underline}
+  .cc-actions{display:flex;gap:10px;flex:0 0 auto}
+  .cc-btn{font-family:inherit;font-size:13px;font-weight:700;padding:9px 16px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .cc-accept{background:var(--orange);color:#141516;border:1px solid var(--orange)}
+  .cc-reject{background:transparent;color:#eee;border:1.5px solid #fff}
+  .cc-btn:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+  @media(max-width:640px){.cc-bar{left:10px;right:10px;bottom:10px;padding:14px}.cc-actions{width:100%;justify-content:flex-end}}
+  @media(prefers-reduced-motion:reduce){.cc-bar{transition:none}}
 </style>
 """
 
@@ -340,6 +359,29 @@ async function submitQuote(ev){
   btn.disabled = false; btn.textContent = 'Get a Quote';
   return false;
 }
+(function(){
+  var KEY = 'cookieConsent';
+  var bar = document.getElementById('ccBar');
+  if(!bar) return;
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch(e) {}
+  if(stored !== 'accepted' && stored !== 'rejected'){
+    bar.classList.add('cc-show');
+    requestAnimationFrame(function(){ bar.classList.add('cc-in'); });
+  }
+  function hide(){
+    bar.classList.remove('cc-in');
+    setTimeout(function(){ bar.classList.remove('cc-show'); }, 350);
+  }
+  document.getElementById('ccAccept').addEventListener('click', function(){
+    try { localStorage.setItem(KEY, 'accepted'); } catch(e) {}
+    hide();
+  });
+  document.getElementById('ccReject').addEventListener('click', function(){
+    try { localStorage.setItem(KEY, 'rejected'); } catch(e) {}
+    hide();
+  });
+})();
 </script>
 """
 
@@ -356,10 +398,18 @@ FOOTER = """
   <div class="mark">K</div>
   <div style="color:#fff;font-weight:800;letter-spacing:.08em">KAANLAR HANDYMAN</div>
   <div style="margin-top:6px">Furniture Fitting &amp; Handyman Services &middot; North London</div>
-  <div style="margin-top:12px"><a href="tel:""" + PHONE_TEL + """">""" + PHONE_DISPLAY + """</a> &nbsp;|&nbsp; <a href="mailto:""" + EMAIL_ADDRESS + """">""" + EMAIL_ADDRESS + """</a> &nbsp;|&nbsp; <a href="/privacy-policy">Privacy Policy</a></div>
+  <div style="margin-top:12px"><a href="tel:""" + PHONE_TEL + """">""" + PHONE_DISPLAY + """</a> &nbsp;|&nbsp; <a href="mailto:""" + EMAIL_ADDRESS + """">""" + EMAIL_ADDRESS + """</a> &nbsp;|&nbsp; <a href="/privacy-policy">Privacy Policy</a> &nbsp;|&nbsp; <a href="/terms">Terms &amp; Conditions</a></div>
 </footer>
 <a class="wa-float" href="https://wa.me/""" + WHATSAPP_NUMBER + """" target="_blank" rel="noopener" aria-label="WhatsApp Kaanlar Handyman">""" + WA_SVG + """</a>
 <div class="lb" id="lb" onclick="this.classList.remove('open')"><span></span><img id="lbimg" src="" alt=""></div>
+
+<div class="cc-bar" id="ccBar" role="region" aria-label="Cookie notice">
+  <p>This site uses a small number of essential cookies to keep it working properly. See our <a href="/privacy-policy">Privacy Policy</a> for details.</p>
+  <div class="cc-actions">
+    <button class="cc-btn cc-reject" id="ccReject" type="button">Reject</button>
+    <button class="cc-btn cc-accept" id="ccAccept" type="button">Accept</button>
+  </div>
+</div>
 """
 
 
@@ -545,6 +595,35 @@ def privacy_body():
 """
 
 
+def terms_body():
+    return """
+<section class="band"><div class="wrap narrow prose">
+  <div class="head reveal"><div class="eyebrow">Legal</div><h2>Terms &amp; Conditions</h2><p>The terms that apply when you book a job with Kaanlar Handyman.</p></div>
+  <div class="reveal">
+    <p>These terms apply to any job booked with Kaanlar Handyman (Mehmet Bolukbas, &ldquo;we&rdquo;, &ldquo;us&rdquo;). By asking us to carry out work you agree to them.</p>
+    <h3>Quotes</h3>
+    <p>Prices given by phone, WhatsApp, email or the quote form are estimates based on what you've described. The final price is confirmed once we've seen the job or have all the details, and before any work starts.</p>
+    <h3>Booking &amp; access</h3>
+    <p>Please make sure someone is available at the property for the agreed time, with reasonable access to the work area.</p>
+    <h3>Cancellations</h3>
+    <p>We ask for as much notice as possible if a job needs to be moved or cancelled. Late cancellations, or access not being available on the day, may be subject to a reasonable charge.</p>
+    <h3>Workmanship &amp; materials</h3>
+    <p>Work is carried out to a professional standard using suitable materials. If anything about the finished job isn't right, let us know within a reasonable time and we'll come back and put it right.</p>
+    <h3>Liability</h3>
+    <p>We take care to protect your home and belongings while working. Our liability is limited to putting right work that falls below a reasonable standard.</p>
+    <h3>Payment</h3>
+    <p>Payment is due on completion unless otherwise agreed beforehand.</p>
+    <h3>Website use</h3>
+    <p>This website and its quote form are here to help you get a price quickly. Nothing on the site is a binding offer until Mehmet has confirmed a quote and a booking with you directly.</p>
+    <h3>Governing law</h3>
+    <p>These terms are governed by the law of England &amp; Wales.</p>
+    <h3>Contact</h3>
+    <p>Questions about these terms? Get in touch using the details on the Contact page.</p>
+  </div>
+</div></section>
+"""
+
+
 # --- Routes -----------------------------------------------------------------
 
 @app.route("/")
@@ -607,9 +686,15 @@ def privacy():
     return page("Privacy Policy", privacy_body())
 
 
+@app.route("/terms")
+@app.route("/terms-and-conditions")
+def terms():
+    return page("Terms & Conditions", terms_body())
+
+
 @app.route("/sitemap.xml")
 def sitemap():
-    pages = ["/", "/services", "/gallery", "/contact", "/privacy-policy"]
+    pages = ["/", "/services", "/gallery", "/contact", "/privacy-policy", "/terms"]
     base = "https://kaanlarhandyman.co.uk"
     urls = "".join(f"<url><loc>{base}{p}</loc></url>" for p in pages)
     return Response(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>', mimetype="application/xml")
