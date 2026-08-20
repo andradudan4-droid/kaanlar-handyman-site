@@ -274,6 +274,7 @@ BASE_STYLE = """
   .cc-btn:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
   @media(max-width:640px){.cc-bar{left:10px;right:10px;bottom:10px;padding:14px}.cc-actions{width:100%;justify-content:flex-end}}
   @media(prefers-reduced-motion:reduce){.cc-bar{transition:none}}
+  body.cc-open .wa-float{display:none!important}
 </style>
 """
 
@@ -367,10 +368,12 @@ async function submitQuote(ev){
   try { stored = localStorage.getItem(KEY); } catch(e) {}
   if(stored !== 'accepted' && stored !== 'rejected'){
     bar.classList.add('cc-show');
+    document.body.classList.add('cc-open');
     requestAnimationFrame(function(){ bar.classList.add('cc-in'); });
   }
   function hide(){
     bar.classList.remove('cc-in');
+    document.body.classList.remove('cc-open');
     setTimeout(function(){ bar.classList.remove('cc-show'); }, 350);
   }
   document.getElementById('ccAccept').addEventListener('click', function(){
