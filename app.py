@@ -18,11 +18,39 @@ import os
 import re
 import uuid
 import html
+import hashlib
+import time
 import requests
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key-change-this-later")
+app.secret_key = (
+    os.environ.get("SECRET_KEY")
+    or hashlib.sha256((os.environ.get("RESEND_API_KEY") or "kaanlar-handyman-fallback-secret").encode()).hexdigest()
+)
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+
+_ip_hits = {}
+
+
+def _ip_rate_limited(ip, limit=12, window=60):
+    now = time.time()
+    hits = [t for t in _ip_hits.get(ip, []) if now - t < window]
+    if len(hits) >= limit:
+        _ip_hits[ip] = hits
+        return True
+    hits.append(now)
+    _ip_hits[ip] = hits
+    return False
+
+
+@app.after_request
+def _add_security_headers(resp):
+    resp.headers.setdefault("X-Content-Type-Options", "nosniff")
+    resp.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
+    resp.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    return resp
+
 
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
 NOTIFY_TO = os.environ.get("NOTIFY_TO", "andradudan4@gmail.com")
@@ -416,12 +444,44 @@ FOOTER = """
 """
 
 
+SCHEMA_LD = """<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Kaanlar Handyman",
+  "url": "https://kaanlarhandyman.co.uk",
+  "telephone": "+447492466097",
+  "email": "bolukbasmobilya@gmail.com",
+  "priceRange": "££",
+  "description": "Furniture fitting, assembly, repairs, flooring, painting & decorating and handyman services across North London.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "North London",
+    "addressRegion": "Greater London",
+    "addressCountry": "GB"
+  },
+  "areaServed": ["Enfield", "Barnet", "Haringey", "Islington", "Camden", "Hackney", "Waltham Forest", "Tottenham", "Wood Green", "Finchley", "Muswell Hill", "Southgate"]
+}
+</script>"""
+
+
 def page(title, body, description="Furniture fitting and handyman services across North London."):
+    canon_path = "/" if request.path == "/" else request.path.rstrip("/")
+    canon_url = "https://kaanlarhandyman.co.uk" + canon_path
+    esc_title = html.escape(title)
+    esc_desc = html.escape(description)
     return render_template_string(
-        '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>' + html.escape(title) + """ — Kaanlar Handyman</title>
-<meta name="description" content=\"""" + html.escape(description) + """\">
+        '<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><title>' + esc_title + """ — Kaanlar Handyman | North London</title>
+<meta name="description" content=\"""" + esc_desc + """\">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href=\"""" + canon_url + """\">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kaanlar Handyman">
+<meta property="og:title" content=\"""" + esc_title + """ — Kaanlar Handyman\">
+<meta property="og:description" content=\"""" + esc_desc + """\">
+<meta property="og:url" content=\"""" + canon_url + """\">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-""" + BASE_STYLE + """</head><body>""" + nav() + body + FOOTER + SCRIPTS + "</body></html>"
+""" + SCHEMA_LD + BASE_STYLE + """</head><body>""" + nav() + body + FOOTER + SCRIPTS + "</body></html>"
     )
 
 
@@ -647,9 +707,12 @@ def gallery():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "GET":
-        return page("Contact", contact_body())
+        return page("Contact", contact_body(), "Contact Kaanlar Handyman for furniture assembly, repairs and handyman jobs across North London.")
     if (request.form.get("website") or "").strip():
         return page("Contact", contact_body(sent=True))
+    ip = (request.headers.get("X-Forwarded-For") or request.remote_addr or "unknown").split(",")[0].strip()
+    if _ip_rate_limited(ip):
+        return page("Contact", contact_body(error="Too many requests — please wait a moment or call us directly."))
     name = (request.form.get("name") or "").strip()
     email = (request.form.get("email") or "").strip()
     message = (request.form.get("message") or "").strip()
@@ -661,6 +724,9 @@ def contact():
 
 @app.route("/quote", methods=["POST"])
 def quote_endpoint():
+    ip = (request.headers.get("X-Forwarded-For") or request.remote_addr or "unknown").split(",")[0].strip()
+    if _ip_rate_limited(ip):
+        return jsonify({"ok": False, "error": "Please wait a moment before sending another request."}), 429
     data = request.get_json(silent=True) or {}
     if (data.get("website") or "").strip():
         return jsonify({"ok": True})
