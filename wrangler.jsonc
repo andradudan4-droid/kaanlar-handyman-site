@@ -1,0 +1,22 @@
+{
+  "name": "kaanlar-handyman-site",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-01-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/quote", "/contact", "/_contact/*"],
+    "html_handling": "drop-trailing-slash"
+  },
+  // TESTING: DRY_RUN "1" means no email is sent. Before going live set NOTIFY_TO to
+  // the address Render uses for this site and DRY_RUN to "0".
+  "vars": {
+    "NOTIFY_TO": "andradudan4@gmail.com",
+    "RESEND_FROM": "Kaanlar Handyman Website <leads@frontdesk.org.uk>",
+    "DRY_RUN": "1"
+  },
+  "ratelimits": [
+    { "name": "FORM_LIMIT", "namespace_id": "2301", "simple": { "limit": 12, "period": 60 } }
+  ],
+  "observability": { "enabled": true }
+}

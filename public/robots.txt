@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kaanlarhandyman.co.uk/sitemap.xml
