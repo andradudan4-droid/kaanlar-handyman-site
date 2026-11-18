@@ -1,0 +1,37 @@
+{
+ "site": "https://kaanlar-handyman.co.uk",
+ "template": "services.html",
+ "start": "<a href=\"/contact\">Get a Quote</a>\n</div>\n",
+ "end": "<section class=\"band paper\"><div class=\"wrap\">\n  <div class=\"head reveal\"><div class=\"eyebrow\">Pricing</div>",
+ "pages": [
+  {
+   "path": "/furniture-assembly-north-london",
+   "title": "Furniture Assembly in North London | Kaanlar",
+   "desc": "Flat-pack, wardrobe, bed and sofa assembly and repair across North London by Mehmet. \u00a360/hr, 100% satisfaction guarantee.",
+   "body": "<section class=\"band paper\"><div class=\"wrap narrow\"><div class=\"head reveal\"><div class=\"eyebrow\">Furniture fitting</div><h1>Furniture assembly in North London</h1><p>Flat-pack, wardrobes, beds and sofas built properly, and fixed when they're not.</p></div><div class=\"prose reveal\"><h3>What Mehmet builds</h3><p>Flat-pack furniture of every kind, fitted wardrobes, beds, sofas and bespoke builds, plus repairs to furniture that has worked loose or broken.</p><h3>Price</h3><p>Furniture making and fitting starts at \u00a360 an hour. The final price depends on the job and is confirmed before Mehmet starts. Bigger jobs can have a fixed quote.</p><h3>One person, start to finish</h3><p>No subcontractors and no call centre. You deal with Mehmet directly, and every job comes with a 100% satisfaction guarantee.</p><h3>Get a price</h3><p>Send the details with the quote form below, call or WhatsApp 07492 466 097. Mehmet comes back with a straight price, usually the same day.</p><p>Also see: <a href=\"/handyman-north-london\">Handyman</a> &middot; <a href=\"/flooring-fitter-north-london\">Flooring</a> &middot; <a href=\"/areas\">Areas we cover</a></p></div></div></section>\n\n"
+  },
+  {
+   "path": "/handyman-north-london",
+   "title": "Handyman in North London | Kaanlar Handyman",
+   "desc": "Handyman for repairs, doors, wall fixings, small electrical jobs, painting and weatherproofing across North London. \u00a350/hr.",
+   "body": "<section class=\"band paper\"><div class=\"wrap narrow\"><div class=\"head reveal\"><div class=\"eyebrow\">Handyman</div><h1>Handyman services in North London</h1><p>Repairs, fixes and small jobs around the home, done properly first time.</p></div><div class=\"prose reveal\"><h3>Jobs Mehmet takes on</h3><p>Sticking doors, damaged frames and wall fixings; sockets, fittings and small electrical jobs; painting rooms, walls and woodwork; and sealing sheds, fences and exteriors against the weather.</p><h3>Price</h3><p>Handyman work starts at \u00a350 an hour, confirmed before the job starts.</p><h3>Satisfaction guaranteed</h3><p>Every job is covered by a 100% satisfaction guarantee.</p><h3>Get a price</h3><p>Send the details with the quote form below, call or WhatsApp 07492 466 097. Mehmet comes back with a straight price, usually the same day.</p><p>Also see: <a href=\"/furniture-assembly-north-london\">Furniture assembly</a> &middot; <a href=\"/flooring-fitter-north-london\">Flooring</a> &middot; <a href=\"/areas\">Areas we cover</a></p></div></div></section>\n\n"
+  },
+  {
+   "path": "/flooring-fitter-north-london",
+   "title": "Flooring Fitter in North London | Kaanlar",
+   "desc": "Laminate, vinyl and wood-effect flooring supplied and fitted across North London by Mehmet. Straight prices, 100% satisfaction guarantee.",
+   "body": "<section class=\"band paper\"><div class=\"wrap narrow\"><div class=\"head reveal\"><div class=\"eyebrow\">Flooring</div><h1>Flooring fitted in North London</h1><p>Laminate, vinyl and wood-effect flooring supplied and fitted.</p></div><div class=\"prose reveal\"><h3>What's fitted</h3><p>Laminate, vinyl and wood-effect flooring, from a single room to full flooring installs.</p><h3>Supply and fit</h3><p>Mehmet can supply the flooring as well as fit it, or fit flooring you've already bought.</p><h3>Get a price</h3><p>Send the details with the quote form below, call or WhatsApp 07492 466 097. Mehmet comes back with a straight price, usually the same day.</p><p>Also see: <a href=\"/furniture-assembly-north-london\">Furniture assembly</a> &middot; <a href=\"/handyman-north-london\">Handyman</a> &middot; <a href=\"/areas\">Areas we cover</a></p></div></div></section>\n\n"
+  },
+  {
+   "path": "/areas",
+   "title": "Areas We Cover: North London | Kaanlar Handyman",
+   "desc": "Kaanlar Handyman covers North London: Enfield, Barnet, Haringey, Islington, Camden, Hackney, Waltham Forest, Finchley, Muswell Hill and more.",
+   "body": "<section class=\"band paper\"><div class=\"wrap narrow\"><div class=\"head reveal\"><div class=\"eyebrow\">Coverage</div><h1>Handyman and furniture fitting across North London</h1><p>Based in North London and covering these areas and nearby.</p></div><div class=\"prose reveal\"><h3>Areas covered</h3><p>Enfield, Barnet, Haringey, Islington, Camden, Hackney, Waltham Forest, Tottenham, Wood Green, Finchley, Muswell Hill and Southgate.</p><h3>Not sure if that includes you?</h3><p>Just ask: call or WhatsApp 07492 466 097 or use the quote form below.</p><h3>What Mehmet does</h3><p>Furniture assembly and repair, window, wall and door repairs, minor electrical work, painting and decorating, flooring and weatherproofing.</p><p>Also see: <a href=\"/furniture-assembly-north-london\">Furniture assembly</a> &middot; <a href=\"/handyman-north-london\">Handyman</a> &middot; <a href=\"/flooring-fitter-north-london\">Flooring</a></p></div></div></section>\n\n"
+  }
+ ],
+ "links": {
+  "file": "services.html",
+  "before": "<section class=\"band paper\"><div class=\"wrap\">\n  <div class=\"head reveal\"><div class=\"eyebrow\">Pricing</div>",
+  "html": "<section class=\"band\" style=\"padding-top:0\"><div class=\"wrap\"><p class=\"reveal\">More about: <a href=\"/furniture-assembly-north-london\">furniture assembly</a> &middot; <a href=\"/handyman-north-london\">handyman</a> &middot; <a href=\"/flooring-fitter-north-london\">flooring</a> &middot; <a href=\"/areas\">areas we cover</a></p></div></section>\n\n"
+ }
+}
