@@ -449,7 +449,7 @@ SCHEMA_LD = """<script type="application/ld+json">
   "@context": "https://schema.org",
   "@type": "HomeAndConstructionBusiness",
   "name": "Kaanlar Handyman",
-  "url": "https://kaanlarhandyman.co.uk",
+  "url": "https://kaanlar-handyman.co.uk",
   "telephone": "+447492466097",
   "email": "bolukbasmobilya@gmail.com",
   "priceRange": "££",
@@ -467,7 +467,7 @@ SCHEMA_LD = """<script type="application/ld+json">
 
 def page(title, body, description="Furniture fitting and handyman services across North London."):
     canon_path = "/" if request.path == "/" else request.path.rstrip("/")
-    canon_url = "https://kaanlarhandyman.co.uk" + canon_path
+    canon_url = "https://kaanlar-handyman.co.uk" + canon_path
     esc_title = html.escape(title)
     esc_desc = html.escape(description)
     return render_template_string(
@@ -764,14 +764,14 @@ def terms():
 @app.route("/sitemap.xml")
 def sitemap():
     pages = ["/", "/services", "/gallery", "/contact", "/privacy-policy", "/terms"]
-    base = "https://kaanlarhandyman.co.uk"
+    base = "https://kaanlar-handyman.co.uk"
     urls = "".join(f"<url><loc>{base}{p}</loc></url>" for p in pages)
     return Response(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>', mimetype="application/xml")
 
 
 @app.route("/robots.txt")
 def robots():
-    return Response("User-agent: *\nAllow: /\nSitemap: https://kaanlarhandyman.co.uk/sitemap.xml", mimetype="text/plain")
+    return Response("User-agent: *\nAllow: /\nSitemap: https://kaanlar-handyman.co.uk/sitemap.xml", mimetype="text/plain")
 
 
 if __name__ == "__main__":
