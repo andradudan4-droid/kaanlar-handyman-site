@@ -13,7 +13,7 @@
   "vars": {
     "NOTIFY_TO": "andradudan4@gmail.com",
     "RESEND_FROM": "Kaanlar Handyman Website <leads@frontdesk.org.uk>",
-    "DRY_RUN": "1"
+    "DRY_RUN": "0"
   },
   "ratelimits": [
     { "name": "FORM_LIMIT", "namespace_id": "2301", "simple": { "limit": 12, "period": 60 } }
