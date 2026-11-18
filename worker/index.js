@@ -94,6 +94,11 @@ async function contact(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+      // One address only: send www.<domain> to <domain>, as the Render version did.
+      if (url.hostname.startsWith("www.")) {
+        url.hostname = url.hostname.slice(4);
+        return Response.redirect(url.toString(), 301);
+      }
     if (request.method === "POST") {
       const origin = request.headers.get("origin");
       if (origin && new URL(origin).host !== url.host) return new Response("Forbidden", { status: 403 });

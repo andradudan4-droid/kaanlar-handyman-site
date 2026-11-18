@@ -9,7 +9,7 @@
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    "run_worker_first": ["/quote", "/contact", "/_contact/*"],
+    "run_worker_first": ["/*", "!/static/*"],
     "html_handling": "drop-trailing-slash"
   },
   // TESTING: DRY_RUN "1" means no email is sent. Before going live set NOTIFY_TO to
